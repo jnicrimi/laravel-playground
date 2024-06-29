@@ -1,0 +1,23 @@
+---
+
+services:
+  nginx:
+    container_name: "nginx"
+    build:
+      context: ./docker/nginx
+    ports:
+      - "8080:80"
+  php:
+    container_name: "php"
+    build:
+      context: ./docker/php
+  mysql:
+    container_name: "mysql"
+    image: mysql:8.4
+    ports:
+      - "3306:3306"
+    volumes:
+      - ./docker/mysql/my.cnf:/etc/mysql/conf.d/my.cnf
+    environment:
+      MYSQL_ALLOW_EMPTY_PASSWORD: "yes"
+      MYSQL_DATABASE: "app"
