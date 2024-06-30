@@ -13,4 +13,4 @@ RUN docker-php-ext-install pdo_mysql
 WORKDIR /usr/bin
 RUN curl -s http://getcomposer.org/installer | php && ln -s /usr/bin/composer.phar /usr/bin/composer
 
-WORKDIR /var/www/html
+WORKDIR /var/www
