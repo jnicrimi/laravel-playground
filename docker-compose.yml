@@ -9,12 +9,16 @@ services:
       context: ./docker/web
     ports:
       - "8080:80"
+    volumes:
+      - ./backend:/var/www
   backend:
     container_name: "backend"
     build:
       context: ./docker/backend
     depends_on:
       - db
+    volumes:
+      - ./backend:/var/www
   db:
     container_name: "db"
     image: mysql:8.4
