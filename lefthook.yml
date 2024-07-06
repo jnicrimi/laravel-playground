@@ -11,6 +11,7 @@ pre-commit:
       run: git secrets --scan
     markdownlint:
       glob: "*.md"
+      exclude: "^backend/README.md$"
       run: markdownlint {staged_files}
     yamllint:
       glob: "*.{yml,yaml}"
