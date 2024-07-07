@@ -28,4 +28,4 @@ db:
 
 .PHONY: phpstan
 phpstan:
-	docker compose exec backend bash -c 'vendor/bin/phpstan clear-result-cache && vendor/bin/phpstan analyse --configuration phpstan.neon'
+	docker compose exec backend bash -c 'vendor/bin/phpstan clear-result-cache && vendor/bin/phpstan analyse'
