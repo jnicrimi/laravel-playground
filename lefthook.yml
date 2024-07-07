@@ -19,4 +19,4 @@ pre-commit:
     phpstan:
       root: backend
       glob: "*.php"
-      run: docker compose exec backend bash -c 'vendor/bin/phpstan clear-result-cache && vendor/bin/phpstan analyse --configuration phpstan.neon {staged_files}'
+      run: docker compose exec backend bash -c 'vendor/bin/phpstan clear-result-cache && vendor/bin/phpstan analyse {staged_files}'
