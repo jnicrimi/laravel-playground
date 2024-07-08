@@ -29,3 +29,7 @@ db:
 .PHONY: phpstan
 phpstan:
 	docker compose exec backend bash -c 'vendor/bin/phpstan clear-result-cache && vendor/bin/phpstan analyse'
+
+.PHONY: pint
+pint:
+	docker compose exec backend bash -c 'vendor/bin/pint'
