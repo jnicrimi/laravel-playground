@@ -20,3 +20,7 @@ pre-commit:
       root: backend
       glob: "*.php"
       run: docker compose exec backend bash -c 'vendor/bin/phpstan clear-result-cache && vendor/bin/phpstan analyse {staged_files}'
+    pint:
+      root: backend
+      glob: "*.php"
+      run: docker compose exec backend bash -c 'vendor/bin/pint --test {staged_files}'
