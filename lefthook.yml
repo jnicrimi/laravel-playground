@@ -24,3 +24,6 @@ pre-commit:
       root: backend
       glob: "*.php"
       run: docker compose exec backend bash -c 'vendor/bin/pint --test {staged_files}'
+    hadolint:
+      glob: "**/Dockerfile"
+      run: hadolint {staged_files}
