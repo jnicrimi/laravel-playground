@@ -7,6 +7,7 @@ parameters:
         - bootstrap
         - config
         - database
+        - packages
         - resources/views
         - routes
         - tests
