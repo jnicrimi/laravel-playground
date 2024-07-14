@@ -27,3 +27,8 @@ pre-commit:
     hadolint:
       glob: "**/Dockerfile"
       run: hadolint {staged_files}
+pre-push:
+  commands:
+    phpunit:
+      root: backend
+      run: docker compose exec backend bash -c 'php artisan test'

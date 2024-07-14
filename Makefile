@@ -33,3 +33,7 @@ phpstan:
 .PHONY: pint
 pint:
 	docker compose exec backend bash -c 'vendor/bin/pint'
+
+.PHONY: phpunit
+phpunit:
+	docker compose exec backend bash -c 'php artisan test'
