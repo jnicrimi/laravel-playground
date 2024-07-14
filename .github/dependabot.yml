@@ -1,0 +1,37 @@
+---
+
+version: 2
+updates:
+  - package-ecosystem: 'npm'
+    directory: '/'
+    schedule:
+      interval: 'weekly'
+      day: 'saturday'
+      time: '10:00'
+      timezone: 'Asia/Tokyo'
+    assignees:
+      - 'jnicrimi'
+    reviewers:
+      - 'jnicrimi'
+  - package-ecosystem: 'composer'
+    directory: '/'
+    schedule:
+      interval: 'weekly'
+      day: 'saturday'
+      time: '10:00'
+      timezone: 'Asia/Tokyo'
+    assignees:
+      - 'jnicrimi'
+    reviewers:
+      - 'jnicrimi'
+  - package-ecosystem: 'github-actions'
+    directory: '/'
+    schedule:
+      interval: 'weekly'
+      day: 'saturday'
+      time: '10:00'
+      timezone: 'Asia/Tokyo'
+    assignees:
+      - 'jnicrimi'
+    reviewers:
+      - 'jnicrimi'
