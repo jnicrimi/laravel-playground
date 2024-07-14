@@ -3,7 +3,9 @@
 version: 2
 updates:
   - package-ecosystem: 'npm'
-    directory: '/'
+    directories:
+      - '/'
+      - '/backend'
     schedule:
       interval: 'weekly'
       day: 'saturday'
@@ -14,7 +16,7 @@ updates:
     reviewers:
       - 'jnicrimi'
   - package-ecosystem: 'composer'
-    directory: '/'
+    directory: '/backend'
     schedule:
       interval: 'weekly'
       day: 'saturday'
