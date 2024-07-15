@@ -1,0 +1,153 @@
+---
+
+name: test-php
+on:
+  pull_request:
+    types: [opened, reopened, synchronize]
+env:
+  SLACK_ID: ${{ secrets.SLACK_ID }}
+run-name: ${{ github.workflow }} (${{ github.ref_name }})
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+permissions:
+  contents: read
+jobs:
+  phpunit:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: backend
+    if: ${{ github.actor != 'dependabot[bot]' }}
+    outputs:
+      done: ${{ steps.set-output.outputs.message }}
+    services:
+      mysql:
+        image: mysql:8.4
+        ports:
+          - 3306:3306
+        env:
+          MYSQL_ROOT_PASSWORD: password
+          MYSQL_DATABASE: testing
+          MYSQL_USER: ci_user
+          MYSQL_PASSWORD: ci_password
+        options: >-
+          --health-cmd "mysqladmin ping -h 127.0.0.1"
+          --health-interval 20s
+          --health-timeout 10s
+          --health-retries 10
+    steps:
+      - uses: actions/checkout@v4
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.3'
+      - name: Cache vendor
+        id: cache-vendor
+        uses: actions/cache@v4
+        with:
+          path: vendor
+          key: ${{ runner.os }}-vendor-${{ hashFiles('**/composer.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-composer-
+      - name: Composer install
+        if: steps.cache-vendor.outputs.cache-hit != 'true'
+        run: composer install -q --no-ansi --no-interaction --no-scripts --no-suggest --no-progress --prefer-dist
+      - name: Composer dump autoload
+        run: composer dump-autoload
+      - name: Decrypt .env
+        run: php artisan env:decrypt --key=${{ secrets.ENV_CI_DECRYPT_KEY }} --force --env=ci --filename=.env
+      - name: Generate key
+        run: php artisan key:generate
+      - name: Change directory permissions
+        run: chmod -R 777 storage bootstrap/cache
+      - name: Migrate
+        run: php artisan migrate:refresh --seed --force
+      - name: PHPUnit
+        run: vendor/bin/phpunit
+      - name: Set output
+        id: set-output
+        if: ${{ always() }}
+        run: echo "message=${{ (job.status == 'success' && ':white_check_mark:') || ':no_entry:' }} PHPUnit" >> $GITHUB_OUTPUT
+  notification-success:
+    runs-on: ubuntu-latest
+    needs: [phpunit]
+    if: ${{ success() }}
+    steps:
+      - name: Slack notification
+        uses: slackapi/slack-github-action@v1.26.0
+        with:
+          payload: |
+            {
+              "text": ":white_check_mark: *Success*\n\n${{ github.event.pull_request.html_url }}",
+              "blocks": [
+                {
+                  "type": "section",
+                  "text": {
+                    "type": "mrkdwn",
+                    "text": "${{ env.SLACK_ID }}"
+                  }
+                },
+                {
+                  "type": "section",
+                  "text": {
+                    "type": "mrkdwn",
+                    "text": ":white_check_mark: *Success*\n\n${{ github.event.pull_request.html_url }}"
+                  }
+                },
+                {
+                  "type": "divider"
+                },
+                {
+                  "type": "section",
+                  "text": {
+                    "type": "mrkdwn",
+                    "text": "*Workflow*\n<${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}|${{ github.workflow }} (${{ github.ref_name }}) #${{ github.run_number }}>\n\n${{ needs.phpunit.outputs.done }}"
+                  }
+                }
+              ]
+            }
+        env:
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+          SLACK_WEBHOOK_TYPE: INCOMING_WEBHOOK
+  notification-failure:
+    runs-on: ubuntu-latest
+    needs: [phpunit]
+    if: ${{ failure() }}
+    steps:
+      - name: Slack notification
+        uses: slackapi/slack-github-action@v1.26.0
+        with:
+          payload: |
+            {
+              "text": ":no_entry: *Failure*\n\n${{ github.event.pull_request.html_url }}",
+              "blocks": [
+                {
+                  "type": "section",
+                  "text": {
+                    "type": "mrkdwn",
+                    "text": "${{ env.SLACK_ID }}"
+                  }
+                },
+                {
+                  "type": "section",
+                  "text": {
+                    "type": "mrkdwn",
+                    "text": ":no_entry: *Failure*\n\n${{ github.event.pull_request.html_url }}"
+                  }
+                },
+                {
+                  "type": "divider"
+                },
+                {
+                  "type": "section",
+                  "text": {
+                    "type": "mrkdwn",
+                    "text": "*Workflow*\n<${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}|${{ github.workflow }} (${{ github.ref_name }}) #${{ github.run_number }}>\n\n${{ needs.phpunit.outputs.done }}"
+                  }
+                }
+              ]
+            }
+        env:
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+          SLACK_WEBHOOK_TYPE: INCOMING_WEBHOOK
