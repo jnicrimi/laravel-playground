@@ -28,7 +28,7 @@ db:
 
 .PHONY: phpstan
 phpstan:
-	docker compose exec backend bash -c 'vendor/bin/phpstan clear-result-cache && vendor/bin/phpstan analyse'
+	docker compose exec backend bash -c 'vendor/bin/phpstan clear-result-cache && vendor/bin/phpstan analyse --memory-limit 1G'
 
 .PHONY: pint
 pint:
