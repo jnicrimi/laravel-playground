@@ -20,6 +20,7 @@ return new class() extends Migration
             $table->text('name');
             $table->enum('status', ['published', 'draft', 'closed'])
                 ->default('draft');
+            $table->index('status');
             $table->timestamps();
             $table->softDeletes();
         });
