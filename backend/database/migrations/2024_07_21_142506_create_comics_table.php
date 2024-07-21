@@ -15,7 +15,7 @@ return new class() extends Migration
     {
         Schema::create('comics', function (Blueprint $table) {
             $table->id();
-            $table->string('key')
+            $table->string('key', 255)
                 ->unique();
             $table->text('name');
             $table->enum('status', ['published', 'draft', 'closed'])
