@@ -7,13 +7,13 @@ namespace Tests\Unit\Packages\Domain;
 use ArrayIterator;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use InvalidArgumentException;
-use Packages\Domain\AbstractEntities;
+use Packages\Domain\Entities;
 use Packages\Domain\Pagination;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\DoesNotPerformAssertions;
 use Tests\TestCase;
 
-class AbstractEntitiesTest extends TestCase
+class EntitiesTest extends TestCase
 {
     use RefreshDatabase;
 
@@ -119,9 +119,9 @@ class AbstractEntitiesTest extends TestCase
         ];
     }
 
-    private function createEntities(): AbstractEntities
+    private function createEntities(): Entities
     {
-        return new class() extends AbstractEntities
+        return new class() extends Entities
         {
             protected array $entities = [
                 'a' => 'A',

@@ -5,11 +5,11 @@ declare(strict_types=1);
 namespace Tests\Unit\Packages\Domain;
 
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Packages\Domain\AbstractValueObject;
+use Packages\Domain\ValueObject;
 use PHPUnit\Framework\Attributes\DataProvider;
 use Tests\TestCase;
 
-class AbstractValueObjectTest extends TestCase
+class ValueObjectTest extends TestCase
 {
     use RefreshDatabase;
 
@@ -46,13 +46,13 @@ class AbstractValueObjectTest extends TestCase
     /**
      * @param  mixed  $value
      */
-    private function createValueObject($value = null): AbstractValueObject
+    private function createValueObject($value = null): ValueObject
     {
         if ($value === null) {
             $value = self::DEFAULT_VALUE;
         }
 
-        return new class($value) extends AbstractValueObject
+        return new class($value) extends ValueObject
         {
             protected function validate(): bool
             {

@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace Packages\Domain\Comic;
 
-use Packages\Domain\AbstractValueObject;
+use Packages\Domain\ValueObject;
 
-class ComicId extends AbstractValueObject
+class ComicId extends ValueObject
 {
     protected function validate(): bool
     {
