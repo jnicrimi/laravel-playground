@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace Packages\Domain\Comic;
 
-use Packages\Domain\AbstractEntities;
+use Packages\Domain\Entities;
 
-class Comics extends AbstractEntities
+class Comics extends Entities
 {
     protected function getEntityClass(): string
     {

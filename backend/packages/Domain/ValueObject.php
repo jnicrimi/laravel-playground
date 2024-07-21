@@ -6,7 +6,7 @@ namespace Packages\Domain;
 
 use InvalidArgumentException;
 
-abstract class AbstractValueObject implements ValueObjectInterface
+abstract class ValueObject implements ValueObjectInterface
 {
     /**
      * @throws InvalidArgumentException

@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace Packages\Domain\Comic;
 
-use Packages\Domain\AbstractValueObject;
+use Packages\Domain\ValueObject;
 
-class ComicKey extends AbstractValueObject
+class ComicKey extends ValueObject
 {
     /**
      * @var int

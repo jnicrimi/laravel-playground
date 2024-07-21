@@ -5,10 +5,10 @@ declare(strict_types=1);
 namespace Packages\Domain\Comic;
 
 use Carbon\Carbon;
-use Packages\Domain\AbstractEntity;
+use Packages\Domain\Entity;
 use Packages\Domain\EntityInterface;
 
-class Comic extends AbstractEntity implements EntityInterface
+class Comic extends Entity implements EntityInterface
 {
     public function __construct(
         private ?ComicId $id,

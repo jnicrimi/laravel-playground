@@ -11,7 +11,7 @@ use InvalidArgumentException;
 use IteratorAggregate;
 use Traversable;
 
-abstract class AbstractEntities implements ArrayAccess, Countable, IteratorAggregate
+abstract class Entities implements ArrayAccess, Countable, IteratorAggregate
 {
     protected array $entities = [];
 
