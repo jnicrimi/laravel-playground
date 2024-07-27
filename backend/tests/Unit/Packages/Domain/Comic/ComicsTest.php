@@ -31,7 +31,7 @@ class ComicsTest extends TestCase
 
     public function testCreateInstanceSuccess(): void
     {
-        $comics = new Comics();
+        $comics = new Comics;
         $comics[] = $this->createEntity($this->defaultAttributes);
         $comics[] = $this->createEntity(array_merge($this->defaultAttributes, ['id' => 2]));
         $this->assertInstanceOf(Comics::class, $comics);
@@ -40,7 +40,7 @@ class ComicsTest extends TestCase
     public function testCreateInstanceFailure(): void
     {
         $this->expectException(TypeError::class);
-        $comics = new Comics();
+        $comics = new Comics;
         $comics[] = $this->createEntity($this->defaultAttributes);
         $comics[] = null;
     }

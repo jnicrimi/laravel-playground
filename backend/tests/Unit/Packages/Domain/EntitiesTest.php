@@ -105,7 +105,7 @@ class EntitiesTest extends TestCase
     public static function provideOffsetSet(): array
     {
         return [
-            ['d', new class() {}],
+            ['d', new class {}],
         ];
     }
 
@@ -121,7 +121,7 @@ class EntitiesTest extends TestCase
 
     private function createEntities(): Entities
     {
-        return new class() extends Entities
+        return new class extends Entities
         {
             protected array $entities = [
                 'a' => 'A',

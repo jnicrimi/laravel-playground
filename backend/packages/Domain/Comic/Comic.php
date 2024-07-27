@@ -25,7 +25,7 @@ class Comic extends Entity implements EntityInterface
     public function getId(): ComicId
     {
         if ($this->id === null) {
-            throw new ComicIdIsNotSetException();
+            throw new ComicIdIsNotSetException;
         }
 
         return $this->id;
