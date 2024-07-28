@@ -36,4 +36,4 @@ pint:
 
 .PHONY: phpunit
 phpunit:
-	docker compose exec backend bash -c 'php artisan config:cache && php artisan test'
+	docker compose exec backend bash -c 'php artisan config:clear && php artisan test'
