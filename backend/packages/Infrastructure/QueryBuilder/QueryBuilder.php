@@ -6,7 +6,7 @@ namespace Packages\Infrastructure\QueryBuilder;
 
 use Illuminate\Database\Eloquent\Builder;
 
-abstract class AbstractQueryBuilder
+abstract class QueryBuilder
 {
     abstract public function build(): Builder;
 }

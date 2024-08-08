@@ -16,9 +16,9 @@ use Packages\Domain\Comic\ComicName;
 use Packages\Domain\Comic\ComicRepositoryInterface;
 use Packages\Domain\Comic\Comics;
 use Packages\Domain\Comic\ComicStatus;
-use Packages\Infrastructure\Repository\AbstractEloquentRepository;
+use Packages\Infrastructure\Repository\EloquentRepository;
 
-class ComicRepository extends AbstractEloquentRepository implements ComicRepositoryInterface
+class ComicRepository extends EloquentRepository implements ComicRepositoryInterface
 {
     public function find(ComicId $comicId): ?Comic
     {

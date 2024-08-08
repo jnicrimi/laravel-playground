@@ -6,10 +6,10 @@ namespace Packages\Infrastructure\QueryBuilder\Comic\Index;
 
 use App\Models\Comic;
 use Illuminate\Database\Eloquent\Builder;
-use Packages\Infrastructure\QueryBuilder\AbstractQueryBuilder;
+use Packages\Infrastructure\QueryBuilder\QueryBuilder;
 use Packages\Infrastructure\QueryBuilder\QueryBuilderInterface;
 
-class ComicSearchQueryBuilder extends AbstractQueryBuilder implements QueryBuilderInterface
+class ComicSearchQueryBuilder extends QueryBuilder implements QueryBuilderInterface
 {
     private ?string $key;
 
