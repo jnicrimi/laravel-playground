@@ -1,3 +1,3 @@
 CREATE DATABASE IF NOT EXISTS `testing` DEFAULT CHARACTER SET utf8 ;
-GRANT ALL ON `testing`.* TO 'root@'%' ;
+GRANT ALL ON `testing`.* TO root@'%' ;
 FLUSH PRIVILEGES ;
