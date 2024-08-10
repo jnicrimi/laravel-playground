@@ -15,7 +15,7 @@ class ComicIndexResponse implements ResponseInterface
     {
         return [
             'comics' => $this->buildComics(),
-            'pagination' => $this->comics->getPagination()->toArray(),
+            'pagination' => $this->comics->count() ? $this->comics->getPagination()->toArray() : [],
         ];
     }
 
