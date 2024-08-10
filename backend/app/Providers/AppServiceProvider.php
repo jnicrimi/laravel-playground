@@ -4,6 +4,7 @@ namespace App\Providers;
 
 use Exception;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Support\ServiceProvider;
 use Packages\Application\Comic\ComicDestroyInteractor;
 use Packages\Application\Comic\ComicIndexInteractor;
@@ -59,5 +60,6 @@ class AppServiceProvider extends ServiceProvider
     public function boot(): void
     {
         Model::shouldBeStrict(! $this->app->isProduction());
+        JsonResource::withoutWrapping();
     }
 }
