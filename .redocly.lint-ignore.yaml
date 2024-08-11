@@ -1,0 +1,23 @@
+---
+
+# This file instructs Redocly's linter to ignore the rules contained for specific parts of your API.
+# See https://redoc.ly/docs/cli/ for more information.
+backend/storage/redoc/openapi.yaml:
+  info-license:
+    - '#/info'
+  no-server-example.com:
+    - '#/servers/0/url'
+  operation-operationId:
+    - '#/paths/~1api~1v1~1comics/get/operationId'
+    - '#/paths/~1api~1v1~1comics/post/operationId'
+    - '#/paths/~1api~1v1~1comics~1{comicId}/get/operationId'
+    - '#/paths/~1api~1v1~1comics~1{comicId}/put/operationId'
+    - '#/paths/~1api~1v1~1comics~1{comicId}/delete/operationId'
+  operation-4xx-response:
+    - '#/paths/~1api~1v1~1comics/get/responses'
+  security-defined:
+    - '#/paths/~1api~1v1~1comics/get'
+    - '#/paths/~1api~1v1~1comics/post'
+    - '#/paths/~1api~1v1~1comics~1{comicId}/get'
+    - '#/paths/~1api~1v1~1comics~1{comicId}/put'
+    - '#/paths/~1api~1v1~1comics~1{comicId}/delete'

@@ -1,0 +1,16 @@
+---
+
+Comic:
+  $ref: 'schemas/comic.yaml#/Comic'
+DeletedComic:
+  $ref: 'schemas/comic.yaml#/DeletedComic'
+ComicNotFound:
+  $ref: 'schemas/errors/comic.yaml#/ComicNotFound'
+ComicAlreadyExists:
+  $ref: 'schemas/errors/comic.yaml#/ComicAlreadyExists'
+ComicCannotBeDeleted:
+  $ref: 'schemas/errors/comic.yaml#/ComicCannotBeDeleted'
+InternalServerError:
+  $ref: 'schemas/errors/common.yaml#/InternalServerError'
+Pagination:
+  $ref: 'schemas/pagination.yaml#/Pagination'

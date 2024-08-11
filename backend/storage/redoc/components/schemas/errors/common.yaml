@@ -1,0 +1,20 @@
+---
+
+InternalServerError:
+  type: object
+  properties:
+    code:
+      type: string
+      description: エラーコード
+      example: internal-server-error
+    message:
+      type: string
+      description: エラーメッセージ
+      example: Internal server error.
+    errors:
+      type: array
+      description: エラー詳細一覧
+      example: []
+      items:
+        type: string
+        description: エラー詳細
