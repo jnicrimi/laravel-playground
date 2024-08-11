@@ -6,7 +6,6 @@ commit-msg:
       run: npx commitlint --edit $1
 
 pre-commit:
-  parallel: true
   commands:
     scan-git-secrets:
       run: git secrets --scan
@@ -28,6 +27,14 @@ pre-commit:
     hadolint:
       glob: "**/Dockerfile"
       run: hadolint {staged_files}
+    redocly-bundle:
+      priority: 1
+      glob: "backend/storage/redoc/**/*.yaml"
+      run: npm run redocly-bundle
+    redocly-lint:
+      priority: 2
+      glob: "backend/storage/redoc/**/*.yaml"
+      run: npm run redocly-lint
 pre-push:
   commands:
     phpunit:

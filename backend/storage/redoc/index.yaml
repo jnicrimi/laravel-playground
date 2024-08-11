@@ -1,0 +1,21 @@
+---
+
+openapi: 3.0.0
+info:
+  title: API
+  description: laravel-clean-architecture
+  version: 1.0.0
+servers:
+  - url: http://localhost:8080
+    description: Local
+tags:
+  - name: comics
+    description: 書籍
+paths:
+  /api/v1/comics:
+    $ref: 'paths/comics.yaml'
+  /api/v1/comics/{comicId}:
+    $ref: 'paths/comics.comic-id.yaml'
+components:
+  schemas:
+    $ref: 'components/schemas.yaml'

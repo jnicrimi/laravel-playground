@@ -1,0 +1,56 @@
+---
+
+Comic:
+  type: object
+  properties:
+    id:
+      type: integer
+      format: int64
+      description: 書籍 ID
+      example: 1
+    key:
+      type: string
+      description: 書籍キー
+      example: default-key-1
+    name:
+      type: string
+      description: 書籍名
+      example: default_name_1
+    status:
+      type: object
+      properties:
+        value:
+          type: string
+          description: 書籍ステータス 値
+          example: published
+        description:
+          type: string
+          description: 書籍ステータス 日本語名
+          example: 公開
+DeletedComic:
+  type: object
+  properties:
+    id:
+      type: integer
+      format: int64
+      description: 書籍 ID
+      example: 1
+    key:
+      type: string
+      description: 書籍キー
+      example: default-key-1
+    name:
+      type: string
+      description: 書籍名
+      example: default_name_1
+    status:
+      type: object
+      properties:
+        value:
+          type: string
+          description: 書籍ステータス 値
+          example: closed
+        description:
+          type: string
+          description: 書籍ステータス 日本語名
+          example: 非公開

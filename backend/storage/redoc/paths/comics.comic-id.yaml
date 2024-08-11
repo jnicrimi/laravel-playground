@@ -1,0 +1,151 @@
+---
+
+get:
+  tags:
+    - comics
+  summary: show
+  description: 書籍詳細の取得
+  parameters:
+    - name: comicId
+      in: path
+      description: 書籍 ID
+      example: 1
+      required: true
+      schema:
+        type: integer
+        format: int64
+  responses:
+    '200':
+      description: 成功
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              data:
+                type: object
+                properties:
+                  comic:
+                    $ref: '../components/schemas/comic.yaml#/Comic'
+    '404':
+      description: 書籍が存在しない
+      content:
+        application/json:
+          schema:
+            $ref: '../components/schemas/errors/comic.yaml#/ComicNotFound'
+    '500':
+      description: サーバーエラー
+      content:
+        application/json:
+          schema:
+            $ref: '../components/schemas/errors/common.yaml#/InternalServerError'
+put:
+  tags:
+    - comics
+  summary: update
+  description: 書籍の更新
+  parameters:
+    - name: comicId
+      in: path
+      description: 書籍 ID
+      example: 1
+      required: true
+      schema:
+        type: integer
+        format: int64
+  requestBody:
+    description: 書籍情報
+    required: true
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            key:
+              type: string
+              description: 書籍キー
+              example: default-key-1
+            name:
+              type: string
+              description: 書籍名
+              example: default_name_1
+            status:
+              type: string
+              description: 書籍ステータス
+              example: published
+  responses:
+    '200':
+      description: 成功
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              data:
+                type: object
+                properties:
+                  comic:
+                    $ref: '../components/schemas/comic.yaml#/Comic'
+    '404':
+      description: 書籍が存在しない
+      content:
+        application/json:
+          schema:
+            $ref: '../components/schemas/errors/comic.yaml#/ComicNotFound'
+    '422':
+      description: 書籍の重複
+      content:
+        application/json:
+          schema:
+            $ref: '../components/schemas/errors/comic.yaml#/ComicAlreadyExists'
+    '500':
+      description: サーバーエラー
+      content:
+        application/json:
+          schema:
+            $ref: '../components/schemas/errors/common.yaml#/InternalServerError'
+delete:
+  tags:
+    - comics
+  summary: destroy
+  description: 書籍の削除
+  parameters:
+    - name: comicId
+      in: path
+      description: 書籍 ID
+      example: 1
+      required: true
+      schema:
+        type: integer
+        format: int64
+  responses:
+    '200':
+      description: 成功
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              data:
+                type: object
+                properties:
+                  comic:
+                    $ref: '../components/schemas/comic.yaml#/DeletedComic'
+    '404':
+      description: 書籍が存在しない
+      content:
+        application/json:
+          schema:
+            $ref: '../components/schemas/errors/comic.yaml#/ComicNotFound'
+    '422':
+      description: 書籍の削除不可
+      content:
+        application/json:
+          schema:
+            $ref: '../components/schemas/errors/comic.yaml#/ComicCannotBeDeleted'
+    '500':
+      description: サーバーエラー
+      content:
+        application/json:
+          schema:
+            $ref: '../components/schemas/errors/common.yaml#/InternalServerError'

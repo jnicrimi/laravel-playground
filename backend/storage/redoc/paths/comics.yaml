@@ -1,0 +1,99 @@
+---
+
+get:
+  tags:
+    - comics
+  summary: index
+  description: 書籍一覧の取得
+  parameters:
+    - name: key
+      in: query
+      description: 書籍キー
+      example: default-key-1
+      required: false
+      schema:
+        type: string
+    - name: name
+      in: query
+      description: 書籍名
+      example: default_name_1
+      required: false
+      schema:
+        type: string
+    - name: status[]
+      in: query
+      description: 書籍ステータス
+      example: [published, draft, closed]
+      required: false
+      schema:
+        type: array
+        items:
+          type: string
+  responses:
+    '200':
+      description: 成功
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              data:
+                type: object
+                properties:
+                  comics:
+                    type: array
+                    items:
+                      $ref: '../components/schemas/comic.yaml#/Comic'
+              pagination:
+                $ref: '../components/schemas/pagination.yaml#/Pagination'
+post:
+  tags:
+    - comics
+  summary: create
+  description: 書籍の登録
+  parameters: []
+  requestBody:
+    description: 書籍情報
+    required: true
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            key:
+              type: string
+              description: 書籍キー
+              example: default-key-1
+            name:
+              type: string
+              description: 書籍名
+              example: default_name_1
+            status:
+              type: string
+              description: 書籍ステータス
+              example: published
+  responses:
+    '200':
+      description: 成功
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              data:
+                type: object
+                properties:
+                  comic:
+                    $ref: '../components/schemas/comic.yaml#/Comic'
+    '422':
+      description: 書籍の重複
+      content:
+        application/json:
+          schema:
+            $ref: '../components/schemas/errors/comic.yaml#/ComicAlreadyExists'
+    '500':
+      description: サーバーエラー
+      content:
+        application/json:
+          schema:
+            $ref: '../components/schemas/errors/common.yaml#/InternalServerError'

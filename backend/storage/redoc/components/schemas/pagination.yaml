@@ -1,0 +1,35 @@
+---
+
+Pagination:
+  type: object
+  properties:
+    per_page:
+      type: integer
+      format: int64
+      description: 1 ページあたりの件数
+      example: 5
+    current_page:
+      type: integer
+      format: int64
+      description: 現在のページ
+      example: 1
+    last_page:
+      type: integer
+      format: int64
+      description: 最終ページ
+      example: 2
+    total_count:
+      type: integer
+      format: int64
+      description: 全件数
+      example: 10
+    first_item:
+      type: integer
+      format: int64
+      description: 現在のページの最初の件数
+      example: 1
+    last_item:
+      type: integer
+      format: int64
+      description: 現在のページの最後の件数
+      example: 5
