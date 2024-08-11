@@ -1,0 +1,114 @@
+---
+
+name: lint-redoc
+on:
+  pull_request:
+    types: [opened, reopened, synchronize]
+env:
+  SLACK_ID: ${{ secrets.SLACK_ID }}
+run-name: ${{ github.workflow }} (${{ github.ref_name }})
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+permissions:
+  contents: read
+jobs:
+  redocly:
+    runs-on: ubuntu-latest
+    if: ${{ github.actor != 'dependabot[bot]' }}
+    outputs:
+      done: ${{ steps.set-output.outputs.message }}
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install redocly-cli
+        run: npm install -g @redocly/cli
+      - name: Bundle
+        run: redocly bundle backend/storage/redoc/index.yaml -o backend/storage/redoc/openapi.yaml
+      - name: Lint
+        run: redocly lint backend/storage/redoc/openapi.yaml
+      - name: Set output
+        id: set-output
+        if: ${{ always() }}
+        run: echo "message=${{ (job.status == 'success' && ':white_check_mark:') || ':no_entry:' }} Lint Redoc" >> $GITHUB_OUTPUT
+  notification-success:
+    runs-on: ubuntu-latest
+    needs: [redocly]
+    if: ${{ success() }}
+    steps:
+      - name: Slack Notification
+        uses: slackapi/slack-github-action@v1.26.0
+        with:
+          payload: |
+            {
+              "text": ":white_check_mark: *Success*\n\n${{ github.event.pull_request.html_url }}",
+              "blocks": [
+                {
+                  "type": "section",
+                  "text": {
+                    "type": "mrkdwn",
+                    "text": "${{ env.SLACK_ID }}"
+                  }
+                },
+                {
+                  "type": "section",
+                  "text": {
+                    "type": "mrkdwn",
+                    "text": ":white_check_mark: *Success*\n\n${{ github.event.pull_request.html_url }}"
+                  }
+                },
+                {
+                  "type": "divider"
+                },
+                {
+                  "type": "section",
+                  "text": {
+                    "type": "mrkdwn",
+                    "text": "*Workflow*\n<${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}|${{ github.workflow }} (${{ github.ref_name }}) #${{ github.run_number }}>\n\n${{ needs.redocly.outputs.done }}"
+                  }
+                }
+              ]
+            }
+        env:
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+          SLACK_WEBHOOK_TYPE: INCOMING_WEBHOOK
+  notification-failure:
+    runs-on: ubuntu-latest
+    needs: [redocly]
+    if: ${{ failure() }}
+    steps:
+      - name: Slack Notification
+        uses: slackapi/slack-github-action@v1.26.0
+        with:
+          payload: |
+            {
+              "text": ":no_entry: *Failure*\n\n${{ github.event.pull_request.html_url }}",
+              "blocks": [
+                {
+                  "type": "section",
+                  "text": {
+                    "type": "mrkdwn",
+                    "text": "${{ env.SLACK_ID }}"
+                  }
+                },
+                {
+                  "type": "section",
+                  "text": {
+                    "type": "mrkdwn",
+                    "text": ":no_entry: *Failure*\n\n${{ github.event.pull_request.html_url }}"
+                  }
+                },
+                {
+                  "type": "divider"
+                },
+                {
+                  "type": "section",
+                  "text": {
+                    "type": "mrkdwn",
+                    "text": "*Workflow*\n<${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}|${{ github.workflow }} (${{ github.ref_name }}) #${{ github.run_number }}>\n\n${{ needs.redocly.outputs.done }}"
+                  }
+                }
+              ]
+            }
+        env:
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+          SLACK_WEBHOOK_TYPE: INCOMING_WEBHOOK
