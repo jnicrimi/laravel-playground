@@ -35,6 +35,7 @@ pre-commit:
       priority: 2
       glob: "backend/storage/redoc/**/*.yaml"
       run: npm run redocly-lint
+
 pre-push:
   commands:
     phpunit:
