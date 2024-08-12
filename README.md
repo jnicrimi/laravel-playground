@@ -1,1 +1,1 @@
-# laravel-clean-architecture
+# laravel-playground
