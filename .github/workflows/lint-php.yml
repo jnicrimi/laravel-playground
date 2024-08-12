@@ -12,8 +12,8 @@ permissions:
   contents: read
 jobs:
   phpstan:
-    if: ${{ github.actor != 'dependabot[bot]' }}
     runs-on: ubuntu-latest
+    if: ${{ github.actor != 'dependabot[bot]' }}
     defaults:
       run:
         working-directory: backend
@@ -36,8 +36,8 @@ jobs:
       - name: PHPStan
         run: vendor/bin/phpstan analyse
   pint:
-    if: ${{ github.actor != 'dependabot[bot]' }}
     runs-on: ubuntu-latest
+    if: ${{ github.actor != 'dependabot[bot]' }}
     defaults:
       run:
         working-directory: backend

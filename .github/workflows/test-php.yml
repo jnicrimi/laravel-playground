@@ -12,8 +12,8 @@ permissions:
   contents: read
 jobs:
   phpunit:
-    if: ${{ github.actor != 'dependabot[bot]' }}
     runs-on: ubuntu-latest
+    if: ${{ github.actor != 'dependabot[bot]' }}
     defaults:
       run:
         working-directory: backend
