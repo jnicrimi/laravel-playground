@@ -7,6 +7,7 @@ namespace Tests\Unit\Packages\Infrastructure\Service\Notification;
 use App\Notifications\SlackNotification;
 use Illuminate\Support\Facades\Notification;
 use Packages\Infrastructure\Service\Notification\SlackNotificationService;
+use ReflectionClass;
 use Tests\TestCase;
 
 class SlackNotificationServiceTest extends TestCase
@@ -34,7 +35,7 @@ class SlackNotificationServiceTest extends TestCase
             new SlackNotificationService,
             SlackNotification::class,
             function ($notification, $channels) use ($expectedMessage) {
-                $reflectedNotification = new \ReflectionClass($notification);
+                $reflectedNotification = new ReflectionClass($notification);
                 $messageProperty = $reflectedNotification->getProperty('message');
                 $messageProperty->setAccessible(true);
                 $actualMessage = $messageProperty->getValue($notification);
