@@ -8,6 +8,6 @@ trait EnumMatchable
 {
     public function equals(self $enum): bool
     {
-        return $this->value === $enum->value && static::class === $enum::class;
+        return $this->value === $enum->value;
     }
 }
