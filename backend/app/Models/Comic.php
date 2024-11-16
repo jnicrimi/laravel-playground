@@ -17,7 +17,7 @@ class Comic extends Model
     use SoftDeletes;
 
     /**
-     * @var array<int, string>
+     * @var list<string>
      */
     protected $fillable = [
         'key',
