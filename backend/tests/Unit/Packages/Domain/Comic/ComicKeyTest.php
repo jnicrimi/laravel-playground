@@ -15,14 +15,14 @@ class ComicKeyTest extends TestCase
     use RefreshDatabase;
 
     #[DataProvider('provideCreateInstanceSuccess')]
-    public function testCreateInstanceSuccess(string $key): void
+    public function test_create_instance_success(string $key): void
     {
         $comicKey = new ComicKey($key);
         $this->assertInstanceOf(ComicKey::class, $comicKey);
     }
 
     #[DataProvider('provideCreateInstanceFailure')]
-    public function testCreateInstanceFailure(mixed $key): void
+    public function test_create_instance_failure(mixed $key): void
     {
         $this->expectException(InvalidArgumentException::class);
         new ComicKey($key);

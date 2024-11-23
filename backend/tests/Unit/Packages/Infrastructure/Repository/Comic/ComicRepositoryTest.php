@@ -26,27 +26,27 @@ class ComicRepositoryTest extends TestCase
 
     private ComicRepository $repository;
 
-    public function setUp(): void
+    protected function setUp(): void
     {
         parent::setUp();
         $this->repository = $this->app->make(ComicRepository::class);
     }
 
-    public function testFindSuccess(): void
+    public function test_find_success(): void
     {
         $comicId = new ComicId(1);
         $comic = $this->repository->find($comicId);
         $this->assertInstanceOf(Comic::class, $comic);
     }
 
-    public function testFindFailure(): void
+    public function test_find_failure(): void
     {
         $comicId = new ComicId(PHP_INT_MAX);
         $comic = $this->repository->find($comicId);
         $this->assertNull($comic);
     }
 
-    public function testFindByKeySuccess(): void
+    public function test_find_by_key_success(): void
     {
         $comicKey = new ComicKey('default-key-1');
         $comic = $this->repository->findByKey($comicKey);
@@ -54,7 +54,7 @@ class ComicRepositoryTest extends TestCase
     }
 
     #[DataProvider('provideFindByKeyFailure')]
-    public function testFindByKeyFailure(string $comicKey, ?int $ignoreComicId): void
+    public function test_find_by_key_failure(string $comicKey, ?int $ignoreComicId): void
     {
         $comicKey = new ComicKey($comicKey);
         if ($ignoreComicId !== null) {
@@ -64,7 +64,7 @@ class ComicRepositoryTest extends TestCase
         $this->assertNull($comic);
     }
 
-    public function testPaginate(): void
+    public function test_paginate(): void
     {
         $queryBuilder = new ComicSearchQueryBuilder;
         $queryBuilder->setKey('default-key-1');
@@ -75,7 +75,7 @@ class ComicRepositoryTest extends TestCase
         $this->assertInstanceOf(Comics::class, $comics);
     }
 
-    public function testCreateSuccess(): void
+    public function test_create_success(): void
     {
         $entity = new Comic(
             null,
@@ -89,7 +89,7 @@ class ComicRepositoryTest extends TestCase
         $this->assertInstanceOf(Comic::class, $comic);
     }
 
-    public function testCreateFailure(): void
+    public function test_create_failure(): void
     {
         $this->expectException(Exception::class);
         $this->expectExceptionMessage('ComicId is already set.');
@@ -104,7 +104,7 @@ class ComicRepositoryTest extends TestCase
         $this->repository->create($entity);
     }
 
-    public function testUpdateSuccess(): void
+    public function test_update_success(): void
     {
         $entity = new Comic(
             new ComicId(1),
@@ -118,7 +118,7 @@ class ComicRepositoryTest extends TestCase
         $this->assertInstanceOf(Comic::class, $comic);
     }
 
-    public function testUpdateFailure(): void
+    public function test_update_failure(): void
     {
         $this->expectException(ComicIdIsNotSetException::class);
         $entity = new Comic(
@@ -132,7 +132,7 @@ class ComicRepositoryTest extends TestCase
         $this->repository->update($entity);
     }
 
-    public function testDelete(): void
+    public function test_delete(): void
     {
         $comicModel = ComicModel::find(3);
         $comic = $this->repository->modelToEntity($comicModel);
@@ -144,7 +144,7 @@ class ComicRepositoryTest extends TestCase
         $this->assertNull($deletedComicModel);
     }
 
-    public function testModelToEntity(): void
+    public function test_model_to_entity(): void
     {
         $comicModel = ComicModel::find(1);
         $comic = $this->repository->modelToEntity($comicModel);

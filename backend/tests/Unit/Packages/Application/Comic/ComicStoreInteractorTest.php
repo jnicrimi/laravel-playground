@@ -19,13 +19,13 @@ class ComicStoreInteractorTest extends TestCase
 
     private ComicStoreInteractor $interactor;
 
-    public function setUp(): void
+    protected function setUp(): void
     {
         parent::setUp();
         $this->interactor = $this->app->make(ComicStoreInteractor::class);
     }
 
-    public function testHandleSuccess(): void
+    public function test_handle_success(): void
     {
         Queue::fake();
         $request = new ComicStoreRequest(
@@ -50,7 +50,7 @@ class ComicStoreInteractorTest extends TestCase
         $this->assertSame($expected, $actual);
     }
 
-    public function testHandleFailureByDuplicateKey(): void
+    public function test_handle_failure_by_duplicate_key(): void
     {
         $this->expectException(ComicAlreadyExistsException::class);
         $request = new ComicStoreRequest(

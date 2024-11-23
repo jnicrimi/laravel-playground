@@ -18,31 +18,31 @@ class ComicStatusTest extends TestCase
      */
     public const CASE_COUNT = 3;
 
-    public function testCases(): void
+    public function test_cases(): void
     {
         $this->assertCount(self::CASE_COUNT, ComicStatus::cases());
     }
 
     #[DataProvider('provideEqualsSuccess')]
-    public function testEqualsSuccess(ComicStatus $comicStatus, ComicStatus $expected): void
+    public function test_equals_success(ComicStatus $comicStatus, ComicStatus $expected): void
     {
         $this->assertTrue($comicStatus->equals($expected));
     }
 
     #[DataProvider('provideEqualsFailure')]
-    public function testEqualsFailure(ComicStatus $comicStatus, ComicStatus $expected): void
+    public function test_equals_failure(ComicStatus $comicStatus, ComicStatus $expected): void
     {
         $this->assertFalse($comicStatus->equals($expected));
     }
 
     #[DataProvider('provideDescriptionSuccess')]
-    public function testDescriptionSuccess(ComicStatus $comicStatus, string $expected): void
+    public function test_description_success(ComicStatus $comicStatus, string $expected): void
     {
         $this->assertEquals($expected, $comicStatus->description());
     }
 
     #[DataProvider('provideDescriptionFailure')]
-    public function testDescriptionFailure(ComicStatus $comicStatus, string $expected): void
+    public function test_description_failure(ComicStatus $comicStatus, string $expected): void
     {
         $this->assertNotEquals($expected, $comicStatus->description());
     }

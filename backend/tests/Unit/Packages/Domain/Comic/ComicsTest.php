@@ -29,7 +29,7 @@ class ComicsTest extends TestCase
         'updated_at' => '2023-12-31 23:59:59',
     ];
 
-    public function testCreateInstanceSuccess(): void
+    public function test_create_instance_success(): void
     {
         $comics = new Comics;
         $comics[] = $this->createEntity($this->defaultAttributes);
@@ -37,7 +37,7 @@ class ComicsTest extends TestCase
         $this->assertInstanceOf(Comics::class, $comics);
     }
 
-    public function testCreateInstanceFailure(): void
+    public function test_create_instance_failure(): void
     {
         $this->expectException(TypeError::class);
         $comics = new Comics;

@@ -18,14 +18,14 @@ class ComicIndexInteractorTest extends TestCase
 
     private ComicIndexInteractor $interactor;
 
-    public function setUp(): void
+    protected function setUp(): void
     {
         parent::setUp();
         $this->interactor = $this->app->make(ComicIndexInteractor::class);
     }
 
     #[DataProvider('provideHandleSuccess')]
-    public function testHandleSuccess(array $params): void
+    public function test_handle_success(array $params): void
     {
         $key = Arr::get($params, 'key');
         $name = Arr::get($params, 'name');

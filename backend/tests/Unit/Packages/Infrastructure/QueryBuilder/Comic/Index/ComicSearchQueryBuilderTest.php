@@ -10,7 +10,7 @@ use Tests\TestCase;
 
 class ComicSearchQueryBuilderTest extends TestCase
 {
-    public function testBuild(): void
+    public function test_build(): void
     {
         $queryBuilder = new ComicSearchQueryBuilder;
         $queryBuilder->setKey('default-key-1');
