@@ -17,13 +17,13 @@ class ComicShowInteractorTest extends TestCase
 
     private ComicShowInteractor $interactor;
 
-    public function setUp(): void
+    protected function setUp(): void
     {
         parent::setUp();
         $this->interactor = $this->app->make(ComicShowInteractor::class);
     }
 
-    public function testHandleSuccess(): void
+    public function test_handle_success(): void
     {
         $request = new ComicShowRequest(id: 1);
         $response = $this->interactor->handle($request);
@@ -43,7 +43,7 @@ class ComicShowInteractorTest extends TestCase
         $this->assertSame($expected, $actual);
     }
 
-    public function testHandleFailureByNotFound(): void
+    public function test_handle_failure_by_not_found(): void
     {
         $this->expectException(ComicNotFoundException::class);
         $request = new ComicShowRequest(id: PHP_INT_MAX);

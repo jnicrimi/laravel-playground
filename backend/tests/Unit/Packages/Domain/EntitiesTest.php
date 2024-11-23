@@ -18,7 +18,7 @@ class EntitiesTest extends TestCase
     use RefreshDatabase;
 
     #[DataProvider('provideOffsetExists')]
-    public function testOffsetExists(mixed $expected, mixed $offset): void
+    public function test_offset_exists(mixed $expected, mixed $offset): void
     {
         $entities = $this->createEntities();
         $actual = $entities->offsetExists($offset);
@@ -26,7 +26,7 @@ class EntitiesTest extends TestCase
     }
 
     #[DataProvider('provideOffsetGet')]
-    public function testOffsetGet(mixed $expected, mixed $offset): void
+    public function test_offset_get(mixed $expected, mixed $offset): void
     {
         $entities = $this->createEntities();
         $actual = $entities->offsetGet($offset);
@@ -34,7 +34,7 @@ class EntitiesTest extends TestCase
     }
 
     #[DataProvider('provideOffsetSet')]
-    public function testOffsetSet(mixed $offset, mixed $value): void
+    public function test_offset_set(mixed $offset, mixed $value): void
     {
         $this->expectException(InvalidArgumentException::class);
         $entities = $this->createEntities();
@@ -42,7 +42,7 @@ class EntitiesTest extends TestCase
     }
 
     #[DataProvider('provideOffsetUnset')]
-    public function testOffsetUnset(mixed $expected, mixed $offset): void
+    public function test_offset_unset(mixed $expected, mixed $offset): void
     {
         $entities = $this->createEntities();
         $entities->offsetUnset($offset);
@@ -50,7 +50,7 @@ class EntitiesTest extends TestCase
         $this->assertSame($actual, $expected);
     }
 
-    public function testCount(): void
+    public function test_count(): void
     {
         $entities = $this->createEntities();
         $actual = $entities->count();
@@ -59,14 +59,14 @@ class EntitiesTest extends TestCase
     }
 
     #[DoesNotPerformAssertions]
-    public function testSetPagination(): void
+    public function test_set_pagination(): void
     {
         $pagination = $this->createPagination();
         $entities = $this->createEntities();
         $entities->setPagination($pagination);
     }
 
-    public function testGetPagination(): void
+    public function test_get_pagination(): void
     {
         $pagination = $this->createPagination();
         $entities = $this->createEntities();
@@ -75,7 +75,7 @@ class EntitiesTest extends TestCase
         $this->assertInstanceOf(Pagination::class, $pagination);
     }
 
-    public function testGetIterator(): void
+    public function test_get_iterator(): void
     {
         $entities = $this->createEntities();
         $iterator = $entities->getIterator();

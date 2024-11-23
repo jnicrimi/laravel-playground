@@ -36,7 +36,7 @@ class ComicNotifierTest extends TestCase
         'updated_at' => '2023-12-31 23:59:59',
     ];
 
-    public function setUp(): void
+    protected function setUp(): void
     {
         parent::setUp();
         Queue::fake();
@@ -44,7 +44,7 @@ class ComicNotifierTest extends TestCase
         $this->comic = $this->createEntity(self::$defaultAttributes);
     }
 
-    public function testNotifyStore(): void
+    public function test_notify_store(): void
     {
         $this->notifier->notifyStore($this->comic);
         Queue::assertPushed(ComicStoreNotificationJob::class, function ($job) {
@@ -52,7 +52,7 @@ class ComicNotifierTest extends TestCase
         });
     }
 
-    public function testNotifyUpdate(): void
+    public function test_notify_update(): void
     {
         $this->notifier->notifyUpdate($this->comic);
         Queue::assertPushed(ComicUpdateNotificationJob::class, function ($job) {
@@ -60,7 +60,7 @@ class ComicNotifierTest extends TestCase
         });
     }
 
-    public function testNotifyDestroy(): void
+    public function test_notify_destroy(): void
     {
         $this->notifier->notifyDestroy($this->comic);
         Queue::assertPushed(ComicDestroyNotificationJob::class, function ($job) {

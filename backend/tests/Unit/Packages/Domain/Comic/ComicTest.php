@@ -31,7 +31,7 @@ class ComicTest extends TestCase
     ];
 
     #[DataProvider('provideCreateInstanceSuccess')]
-    public function testCreateInstanceSuccess(array $arguments): void
+    public function test_create_instance_success(array $arguments): void
     {
         $comic = new Comic(
             Arr::get($arguments, 'id'),
@@ -45,7 +45,7 @@ class ComicTest extends TestCase
     }
 
     #[DataProvider('provideCreateInstanceFailure')]
-    public function testCreateInstanceFailure(array $arguments): void
+    public function test_create_instance_failure(array $arguments): void
     {
         $this->expectException(TypeError::class);
         new Comic(
@@ -58,50 +58,50 @@ class ComicTest extends TestCase
         );
     }
 
-    public function testGetId(): void
+    public function test_get_id(): void
     {
         $comic = $this->createEntity(self::$defaultAttributes);
         $this->assertInstanceOf(ComicId::class, $comic->getId());
     }
 
-    public function testGetIdFailure(): void
+    public function test_get_id_failure(): void
     {
         $this->expectException(ComicIdIsNotSetException::class);
         $comic = $this->createEntity(array_merge(self::$defaultAttributes, ['id' => null]));
         $comic->getId();
     }
 
-    public function testGetKey(): void
+    public function test_get_key(): void
     {
         $comic = $this->createEntity(self::$defaultAttributes);
         $this->assertInstanceOf(ComicKey::class, $comic->getKey());
     }
 
-    public function testGetName(): void
+    public function test_get_name(): void
     {
         $comic = $this->createEntity(self::$defaultAttributes);
         $this->assertInstanceOf(ComicName::class, $comic->getName());
     }
 
-    public function testGetStatus(): void
+    public function test_get_status(): void
     {
         $comic = $this->createEntity(self::$defaultAttributes);
         $this->assertInstanceOf(ComicStatus::class, $comic->getStatus());
     }
 
-    public function testGetCreatedAt(): void
+    public function test_get_created_at(): void
     {
         $comic = $this->createEntity(self::$defaultAttributes);
         $this->assertInstanceOf(Carbon::class, $comic->getCreatedAt());
     }
 
-    public function testGetUpdatedAt(): void
+    public function test_get_updated_at(): void
     {
         $comic = $this->createEntity(self::$defaultAttributes);
         $this->assertInstanceOf(Carbon::class, $comic->getUpdatedAt());
     }
 
-    public function testChangeKey(): void
+    public function test_change_key(): void
     {
         $comic = $this->createEntity(self::$defaultAttributes);
         $newKey = 'new-key';
@@ -109,7 +109,7 @@ class ComicTest extends TestCase
         $this->assertSame($newKey, $comic->getKey()->getValue());
     }
 
-    public function testChangeName(): void
+    public function test_change_name(): void
     {
         $comic = $this->createEntity(self::$defaultAttributes);
         $newName = 'new_name';
@@ -117,7 +117,7 @@ class ComicTest extends TestCase
         $this->assertSame($newName, $comic->getName()->getValue());
     }
 
-    public function testChangeStatus(): void
+    public function test_change_status(): void
     {
         $comic = $this->createEntity(self::$defaultAttributes);
         $newStatus = 'draft';
@@ -126,13 +126,13 @@ class ComicTest extends TestCase
     }
 
     #[DataProvider('provideCanDelete')]
-    public function testCanDelete(array $attributes, bool $expected): void
+    public function test_can_delete(array $attributes, bool $expected): void
     {
         $comic = $this->createEntity($attributes);
         $this->assertSame($expected, $comic->canDelete());
     }
 
-    public function testToArray(): void
+    public function test_to_array(): void
     {
         $comic = $this->createEntity(self::$defaultAttributes);
         $this->assertSame(self::$defaultAttributes, $comic->toArray());

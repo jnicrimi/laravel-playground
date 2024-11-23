@@ -12,13 +12,13 @@ class LogNotificationServiceTest extends TestCase
 {
     private LogNotificationService $service;
 
-    public function setUp(): void
+    protected function setUp(): void
     {
         parent::setUp();
         $this->service = $this->app->make(LogNotificationService::class);
     }
 
-    public function testSend(): void
+    public function test_send(): void
     {
         $spy = Log::spy();
         $expectedMessage = 'test';

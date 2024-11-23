@@ -15,14 +15,14 @@ class ComicNameTest extends TestCase
     use RefreshDatabase;
 
     #[DataProvider('provideCreateInstanceSuccess')]
-    public function testCreateInstanceSuccess(string $name): void
+    public function test_create_instance_success(string $name): void
     {
         $comicName = new ComicName($name);
         $this->assertInstanceOf(ComicName::class, $comicName);
     }
 
     #[DataProvider('provideCreateInstanceFailure')]
-    public function testCreateInstanceFailure(mixed $name): void
+    public function test_create_instance_failure(mixed $name): void
     {
         $this->expectException(InvalidArgumentException::class);
         new ComicName($name);

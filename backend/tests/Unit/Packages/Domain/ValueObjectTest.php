@@ -18,7 +18,7 @@ class ValueObjectTest extends TestCase
      */
     public const DEFAULT_VALUE = 'default';
 
-    public function testGetValue(): void
+    public function test_get_value(): void
     {
         $valueObject = $this->createValueObject();
         $actual = $valueObject->getValue();
@@ -27,7 +27,7 @@ class ValueObjectTest extends TestCase
     }
 
     #[DataProvider('provideEquals')]
-    public function testEquals(mixed $expected, mixed $value): void
+    public function test_equals(mixed $expected, mixed $value): void
     {
         $valueObjectA = $this->createValueObject();
         $valueObjectB = $this->createValueObject($value);

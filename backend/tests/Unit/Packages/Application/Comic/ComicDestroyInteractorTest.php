@@ -19,13 +19,13 @@ class ComicDestroyInteractorTest extends TestCase
 
     private ComicDestroyInteractor $interactor;
 
-    public function setUp(): void
+    protected function setUp(): void
     {
         parent::setUp();
         $this->interactor = $this->app->make(ComicDestroyInteractor::class);
     }
 
-    public function testHandleSuccess(): void
+    public function test_handle_success(): void
     {
         Queue::fake();
         $request = new ComicDestroyRequest(id: 3);
@@ -46,14 +46,14 @@ class ComicDestroyInteractorTest extends TestCase
         $this->assertSame($expected, $actual);
     }
 
-    public function testHandleFailureByNotFound(): void
+    public function test_handle_failure_by_not_found(): void
     {
         $this->expectException(ComicNotFoundException::class);
         $request = new ComicDestroyRequest(id: PHP_INT_MAX);
         $this->interactor->handle($request);
     }
 
-    public function testHandleFailureByNotClosedStatus(): void
+    public function test_handle_failure_by_not_closed_status(): void
     {
         $this->expectException(ComicCannotBeDeletedException::class);
         $request = new ComicDestroyRequest(id: 1);

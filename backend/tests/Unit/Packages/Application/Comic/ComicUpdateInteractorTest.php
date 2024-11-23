@@ -20,13 +20,13 @@ class ComicUpdateInteractorTest extends TestCase
 
     private ComicUpdateInteractor $interactor;
 
-    public function setUp(): void
+    protected function setUp(): void
     {
         parent::setUp();
         $this->interactor = $this->app->make(ComicUpdateInteractor::class);
     }
 
-    public function testHandleSuccess(): void
+    public function test_handle_success(): void
     {
         Queue::fake();
         $request = new ComicUpdateRequest(
@@ -52,7 +52,7 @@ class ComicUpdateInteractorTest extends TestCase
         $this->assertSame($expected, $actual);
     }
 
-    public function testHandleFailureByNotFound(): void
+    public function test_handle_failure_by_not_found(): void
     {
         $this->expectException(ComicNotFoundException::class);
         $request = new ComicUpdateRequest(
@@ -64,7 +64,7 @@ class ComicUpdateInteractorTest extends TestCase
         $this->interactor->handle($request);
     }
 
-    public function testHandleFailureByDuplicateKey(): void
+    public function test_handle_failure_by_duplicate_key(): void
     {
         $this->expectException(ComicAlreadyExistsException::class);
         $request = new ComicUpdateRequest(
