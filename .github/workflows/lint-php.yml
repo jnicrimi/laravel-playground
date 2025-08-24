@@ -1,5 +1,3 @@
----
-
 name: lint-php
 on:
   pull_request:

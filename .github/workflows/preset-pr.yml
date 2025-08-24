@@ -1,5 +1,3 @@
----
-
 name: preset-pr
 on:
   pull_request:

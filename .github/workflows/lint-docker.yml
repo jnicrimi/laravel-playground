@@ -1,5 +1,3 @@
----
-
 name: lint-docker
 on:
   pull_request:

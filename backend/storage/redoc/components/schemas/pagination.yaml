@@ -1,5 +1,3 @@
----
-
 Pagination:
   type: object
   properties:

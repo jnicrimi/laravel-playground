@@ -1,5 +1,3 @@
----
-
 ComicNotFound:
   type: object
   properties:
