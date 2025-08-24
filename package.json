@@ -3,9 +3,5 @@
     "redocly-bundle": "npx @redocly/cli bundle backend/storage/redoc/index.yaml -o backend/storage/redoc/openapi.yaml",
     "redocly-lint": "npx @redocly/cli lint backend/storage/redoc/openapi.yaml",
     "redocly-build-docs": "npx @redocly/cli build-docs backend/storage/redoc/openapi.yaml"
-  },
-  "devDependencies": {
-    "@commitlint/cli": "^19.8.1",
-    "@commitlint/config-conventional": "^19.8.1"
   }
 }
