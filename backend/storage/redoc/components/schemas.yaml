@@ -1,5 +1,3 @@
----
-
 Comic:
   $ref: 'schemas/comic.yaml#/Comic'
 DeletedComic:

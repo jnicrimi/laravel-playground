@@ -1,5 +1,3 @@
----
-
 Comic:
   type: object
   properties:
