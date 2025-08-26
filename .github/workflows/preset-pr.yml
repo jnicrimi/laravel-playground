@@ -6,7 +6,9 @@ run-name: ${{ github.workflow }} (${{ github.ref_name }})
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
   cancel-in-progress: false
-permissions: write-all
+permissions:
+  pull-requests: write
+  issues: write
 jobs:
   call-preset-pr:
     uses: jnicrimi/reusable-workflows/.github/workflows/called-preset-pr.yml@main

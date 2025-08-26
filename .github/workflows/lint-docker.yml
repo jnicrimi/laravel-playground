@@ -2,7 +2,8 @@ name: lint-docker
 on:
   pull_request:
     types: [opened, reopened, synchronize]
-permissions: write-all
+permissions:
+  contents: read
 jobs:
   hadolint:
     runs-on: ubuntu-latest
