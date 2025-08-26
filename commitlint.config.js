@@ -6,17 +6,18 @@ module.exports = {
       [
         'feat',
         'fix',
-        'docs',
-        'style',
         'refactor',
+        'docs',
         'test',
-        'chore',
+        'style',
         'build',
         'ci',
-        'revert',
-      ],
+        'perf',
+        'chore',
+        'revert'
+      ]
     ],
     'type-empty': [2, 'never'],
-    'subject-empty': [2, 'never'],
-  },
+    'subject-empty': [2, 'never']
+  }
 };
