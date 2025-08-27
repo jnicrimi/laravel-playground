@@ -2,7 +2,6 @@ name: lint-php
 on:
   pull_request:
     types: [opened, reopened, synchronize]
-run-name: ${{ github.workflow }} (${{ github.ref_name }})
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
   cancel-in-progress: true
