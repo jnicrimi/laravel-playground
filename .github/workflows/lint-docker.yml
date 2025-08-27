@@ -2,6 +2,9 @@ name: lint-docker
 on:
   pull_request:
     types: [opened, reopened, synchronize]
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
 permissions:
   contents: read
 jobs:
