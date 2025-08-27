@@ -2,7 +2,6 @@ name: preset-pr
 on:
   pull_request:
     types: [opened, reopened]
-run-name: ${{ github.workflow }} (${{ github.ref_name }})
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
   cancel-in-progress: false
