@@ -2,48 +2,12 @@
 
 declare(strict_types=1);
 
-namespace Tests\Unit\Packages\Domain\Comic;
-
-use Illuminate\Foundation\Testing\RefreshDatabase;
-use InvalidArgumentException;
 use Packages\Domain\Comic\ComicId;
-use PHPUnit\Framework\Attributes\DataProvider;
-use Tests\TestCase;
 
-class ComicIdTest extends TestCase
-{
-    use RefreshDatabase;
+test('valid id creates instance', function (int $id) {
+    expect(new ComicId($id))->toBeInstanceOf(ComicId::class);
+})->with([1, PHP_INT_MAX]);
 
-    #[DataProvider('provideCreateInstanceSuccess')]
-    public function test_create_instance_success(int $id): void
-    {
-        $comicId = new ComicId($id);
-        $this->assertInstanceOf(ComicId::class, $comicId);
-    }
-
-    #[DataProvider('provideCreateInstanceFailure')]
-    public function test_create_instance_failure(mixed $id): void
-    {
-        $this->expectException(InvalidArgumentException::class);
-        new ComicId($id);
-    }
-
-    public static function provideCreateInstanceSuccess(): array
-    {
-        return [
-            [1],
-            [PHP_INT_MAX],
-        ];
-    }
-
-    public static function provideCreateInstanceFailure(): array
-    {
-        return [
-            [0],
-            [-1],
-            ['1'],
-            ['a'],
-            [null],
-        ];
-    }
-}
+test('invalid id throws exception', function (mixed $id) {
+    expect(fn () => new ComicId($id))->toThrow(InvalidArgumentException::class);
+})->with([0, -1, '1', 'a', null]);

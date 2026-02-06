@@ -16,4 +16,9 @@ parameters:
     ignoreErrors:
         - identifier: missingType.iterableValue
         - identifier: missingType.generics
-        - identifier: new.resultUnused
+        -
+            identifier: property.notFound
+            path: tests/*
+        -
+            identifier: method.notFound
+            path: tests/*

@@ -2,56 +2,23 @@
 
 declare(strict_types=1);
 
-namespace Tests\Unit\Packages\Domain;
+test('get properties', function () {
+    expect(createPagination())
+        ->perPage->toBe(5)
+        ->currentPage->toBe(1)
+        ->lastPage->toBe(2)
+        ->total->toBe(10)
+        ->firstItem->toBe(1)
+        ->lastItem->toBe(5);
+});
 
-use Illuminate\Foundation\Testing\RefreshDatabase;
-use Packages\Domain\Pagination;
-use Tests\TestCase;
-
-class PaginationTest extends TestCase
-{
-    use RefreshDatabase;
-
-    public function test_get_properties(): void
-    {
-        $pagination = $this->createPagination();
-        $this->assertSame(5, $pagination->perPage);
-        $this->assertSame(1, $pagination->currentPage);
-        $this->assertSame(2, $pagination->lastPage);
-        $this->assertSame(10, $pagination->total);
-        $this->assertSame(1, $pagination->firstItem);
-        $this->assertSame(5, $pagination->lastItem);
-    }
-
-    public function test_to_array(): void
-    {
-        $pagination = $this->createPagination();
-        $this->assertSame([
-            'per_page' => 5,
-            'current_page' => 1,
-            'last_page' => 2,
-            'total' => 10,
-            'first_item' => 1,
-            'last_item' => 5,
-        ], $pagination->toArray());
-    }
-
-    private function createPagination(): Pagination
-    {
-        $perPage = 5;
-        $currentPage = 1;
-        $lastPage = 2;
-        $total = 10;
-        $firstItem = 1;
-        $lastItem = 5;
-
-        return new Pagination(
-            $perPage,
-            $currentPage,
-            $lastPage,
-            $total,
-            $firstItem,
-            $lastItem
-        );
-    }
-}
+test('to array', function () {
+    expect(createPagination()->toArray())->toBe([
+        'per_page' => 5,
+        'current_page' => 1,
+        'last_page' => 2,
+        'total' => 10,
+        'first_item' => 1,
+        'last_item' => 5,
+    ]);
+});
