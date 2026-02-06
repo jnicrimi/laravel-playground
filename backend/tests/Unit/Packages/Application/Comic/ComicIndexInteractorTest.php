@@ -2,31 +2,17 @@
 
 declare(strict_types=1);
 
-namespace Tests\Unit\Packages\Application\Comic;
-
-use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Arr;
 use Packages\Application\Comic\ComicIndexInteractor;
 use Packages\UseCase\Comic\Index\ComicIndexRequest;
 use Packages\UseCase\Comic\Index\ComicIndexResponse;
-use PHPUnit\Framework\Attributes\DataProvider;
-use Tests\TestCase;
 
-class ComicIndexInteractorTest extends TestCase
-{
-    use RefreshDatabase;
+beforeEach(function () {
+    $this->interactor = $this->app->make(ComicIndexInteractor::class);
+});
 
-    private ComicIndexInteractor $interactor;
-
-    protected function setUp(): void
-    {
-        parent::setUp();
-        $this->interactor = $this->app->make(ComicIndexInteractor::class);
-    }
-
-    #[DataProvider('provideHandleSuccess')]
-    public function test_handle_success(array $params): void
-    {
+describe('handle', function () {
+    test('success', function (array $params) {
         $key = Arr::get($params, 'key');
         $name = Arr::get($params, 'name');
         $status = Arr::get($params, 'status');
@@ -36,52 +22,49 @@ class ComicIndexInteractorTest extends TestCase
             status: $status
         );
         $response = $this->interactor->handle($request);
-        $this->assertInstanceOf(ComicIndexResponse::class, $response);
+        expect($response)->toBeInstanceOf(ComicIndexResponse::class);
         $comics = Arr::get($response->build(), 'comics', []);
-        if (count($comics) === 0) {
-            $this->fail('comics is empty.');
-        }
+        expect($comics)->not->toBeEmpty();
         foreach ($comics as $comic) {
             if (isset($key)) {
-                $this->assertTrue(Arr::get($comic, 'key') === $key);
+                expect(Arr::get($comic, 'key'))->toBe($key);
             }
             if (isset($name)) {
-                $this->assertTrue(strpos(Arr::get($comic, 'name'), $name) !== false);
+                expect(Arr::get($comic, 'name'))->toContain($name);
             }
             if (isset($status)) {
-                $this->assertTrue(in_array(Arr::get($comic, 'status.value'), $status));
+                expect($status)->toContain(Arr::get($comic, 'status.value'));
             }
         }
-    }
+    })->with('search params');
+});
 
-    public static function provideHandleSuccess(): array
-    {
-        return [
-            '指定なし' => [
-                'params' => [],
+dataset('search params', function () {
+    return [
+        '指定なし' => [
+            'params' => [],
+        ],
+        'key を指定' => [
+            'params' => [
+                'key' => 'default-key-1',
             ],
-            'key を指定' => [
-                'params' => [
-                    'key' => 'default-key-1',
-                ],
+        ],
+        'name を指定' => [
+            'params' => [
+                'name' => 'default',
             ],
-            'name を指定' => [
-                'params' => [
-                    'name' => 'default',
-                ],
+        ],
+        'status を指定' => [
+            'params' => [
+                'status' => ['published'],
             ],
-            'status を指定' => [
-                'params' => [
-                    'status' => ['published'],
-                ],
+        ],
+        '全てのパラメータを指定' => [
+            'params' => [
+                'key' => 'default-key-2',
+                'name' => 'default',
+                'status' => ['draft'],
             ],
-            '全てのパラメータを指定' => [
-                'params' => [
-                    'key' => 'default-key-2',
-                    'name' => 'default',
-                    'status' => ['draft'],
-                ],
-            ],
-        ];
-    }
-}
+        ],
+    ];
+});

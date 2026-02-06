@@ -2,156 +2,78 @@
 
 declare(strict_types=1);
 
-namespace Tests\Unit\Packages\Domain;
-
-use ArrayIterator;
-use Illuminate\Foundation\Testing\RefreshDatabase;
-use InvalidArgumentException;
 use Packages\Domain\Entities;
 use Packages\Domain\Pagination;
-use PHPUnit\Framework\Attributes\DataProvider;
-use PHPUnit\Framework\Attributes\DoesNotPerformAssertions;
-use Tests\TestCase;
 
-class EntitiesTest extends TestCase
-{
-    use RefreshDatabase;
+describe('ArrayAccess', function () {
+    test('offset exists', function (mixed $expected, mixed $offset) {
+        expect(createEntities()->offsetExists($offset))->toBe($expected);
+    })->with([
+        [true, 'a'],
+        [true, 'b'],
+        [true, 'c'],
+        [false, 'd'],
+    ]);
 
-    #[DataProvider('provideOffsetExists')]
-    public function test_offset_exists(mixed $expected, mixed $offset): void
-    {
-        $entities = $this->createEntities();
-        $actual = $entities->offsetExists($offset);
-        $this->assertSame($expected, $actual);
-    }
+    test('offset get', function (mixed $expected, mixed $offset) {
+        expect(createEntities()->offsetGet($offset))->toBe($expected);
+    })->with([
+        ['A', 'a'],
+        ['B', 'b'],
+        ['C', 'c'],
+        [null, 'd'],
+    ]);
 
-    #[DataProvider('provideOffsetGet')]
-    public function test_offset_get(mixed $expected, mixed $offset): void
-    {
-        $entities = $this->createEntities();
-        $actual = $entities->offsetGet($offset);
-        $this->assertSame($expected, $actual);
-    }
+    test('offset set', function (mixed $offset, mixed $value) {
+        expect(fn () => createEntities()->offsetSet($offset, $value))->toThrow(InvalidArgumentException::class);
+    })->with([
+        ['d', new class {}],
+    ]);
 
-    #[DataProvider('provideOffsetSet')]
-    public function test_offset_set(mixed $offset, mixed $value): void
-    {
-        $this->expectException(InvalidArgumentException::class);
-        $entities = $this->createEntities();
-        $entities->offsetSet($offset, $value);
-    }
-
-    #[DataProvider('provideOffsetUnset')]
-    public function test_offset_unset(mixed $expected, mixed $offset): void
-    {
-        $entities = $this->createEntities();
+    test('offset unset', function (mixed $expected, mixed $offset) {
+        $entities = createEntities();
         $entities->offsetUnset($offset);
-        $actual = $entities->count();
-        $this->assertSame($actual, $expected);
-    }
+        expect($entities->count())->toBe($expected);
+    })->with([
+        [2, 'a'],
+        [2, 'b'],
+        [2, 'c'],
+        [3, 'd'],
+    ]);
+});
 
-    public function test_count(): void
-    {
-        $entities = $this->createEntities();
-        $actual = $entities->count();
-        $expected = 3;
-        $this->assertSame($actual, $expected);
-    }
+test('count', function () {
+    expect(createEntities()->count())->toBe(3);
+});
 
-    #[DoesNotPerformAssertions]
-    public function test_set_pagination(): void
-    {
-        $pagination = $this->createPagination();
-        $entities = $this->createEntities();
-        $entities->setPagination($pagination);
-    }
+test('set pagination', function () {
+    $entities = createEntities();
+    $entities->setPagination(createPagination());
+})->throwsNoExceptions();
 
-    public function test_get_pagination(): void
-    {
-        $pagination = $this->createPagination();
-        $entities = $this->createEntities();
-        $entities->setPagination($pagination);
-        $pagination = $entities->getPagination();
-        $this->assertInstanceOf(Pagination::class, $pagination);
-    }
+test('get pagination', function () {
+    $entities = createEntities();
+    $entities->setPagination(createPagination());
+    expect($entities->getPagination())->toBeInstanceOf(Pagination::class);
+});
 
-    public function test_get_iterator(): void
-    {
-        $entities = $this->createEntities();
-        $iterator = $entities->getIterator();
-        $this->assertInstanceOf(ArrayIterator::class, $iterator);
-    }
+test('get iterator', function () {
+    expect(createEntities()->getIterator())->toBeInstanceOf(ArrayIterator::class);
+});
 
-    public static function provideOffsetExists(): array
+function createEntities(): Entities
+{
+    return new class extends Entities
     {
-        return [
-            [true, 'a'],
-            [true, 'b'],
-            [true, 'c'],
-            [false, 'd'],
+        protected array $entities = [
+            'a' => 'A',
+            'b' => 'B',
+            'c' => 'C',
         ];
-    }
 
-    public static function provideOffsetGet(): array
-    {
-        return [
-            ['A', 'a'],
-            ['B', 'b'],
-            ['C', 'c'],
-            [null, 'd'],
-        ];
-    }
-
-    public static function provideOffsetSet(): array
-    {
-        return [
-            ['d', new class {}],
-        ];
-    }
-
-    public static function provideOffsetUnset(): array
-    {
-        return [
-            [2, 'a'],
-            [2, 'b'],
-            [2, 'c'],
-            [3, 'd'],
-        ];
-    }
-
-    private function createEntities(): Entities
-    {
-        return new class extends Entities
+        protected function getEntityClass(): string
         {
-            protected array $entities = [
-                'a' => 'A',
-                'b' => 'B',
-                'c' => 'C',
-            ];
-
-            protected function getEntityClass(): string
-            {
-                return 'entities';
-            }
-        };
-    }
-
-    private function createPagination(): Pagination
-    {
-        $perPage = 5;
-        $currentPage = 1;
-        $lastPage = 2;
-        $total = 10;
-        $firstItem = 1;
-        $lastItem = 5;
-
-        return new Pagination(
-            $perPage,
-            $currentPage,
-            $lastPage,
-            $total,
-            $firstItem,
-            $lastItem
-        );
-    }
+            return 'entities';
+        }
+    };
 }

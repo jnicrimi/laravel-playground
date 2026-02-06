@@ -25,5 +25,5 @@ phpstan *memory-limit="1G":
 pint:
     docker compose exec backend bash -c 'vendor/bin/pint'
 
-phpunit:
-    docker compose exec backend bash -c 'php artisan config:clear && php artisan test'
+pest:
+    docker compose exec backend bash -c 'php artisan config:clear && vendor/bin/pest'

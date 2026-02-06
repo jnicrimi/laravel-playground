@@ -2,33 +2,21 @@
 
 declare(strict_types=1);
 
-namespace Tests\Unit\Packages\Application\Comic;
-
-use Illuminate\Foundation\Testing\RefreshDatabase;
 use Packages\Application\Comic\ComicShowInteractor;
 use Packages\UseCase\Comic\Exception\ComicNotFoundException;
 use Packages\UseCase\Comic\Show\ComicShowRequest;
 use Packages\UseCase\Comic\Show\ComicShowResponse;
-use Tests\TestCase;
 
-class ComicShowInteractorTest extends TestCase
-{
-    use RefreshDatabase;
+beforeEach(function () {
+    $this->interactor = $this->app->make(ComicShowInteractor::class);
+});
 
-    private ComicShowInteractor $interactor;
-
-    protected function setUp(): void
-    {
-        parent::setUp();
-        $this->interactor = $this->app->make(ComicShowInteractor::class);
-    }
-
-    public function test_handle_success(): void
-    {
+describe('handle', function () {
+    test('success', function () {
         $request = new ComicShowRequest(id: 1);
         $response = $this->interactor->handle($request);
-        $this->assertInstanceOf(ComicShowResponse::class, $response);
-        $expected = [
+        expect($response)->toBeInstanceOf(ComicShowResponse::class);
+        expect($response->build())->toBe([
             'comic' => [
                 'id' => 1,
                 'key' => 'default-key-1',
@@ -38,15 +26,12 @@ class ComicShowInteractorTest extends TestCase
                     'description' => '公開',
                 ],
             ],
-        ];
-        $actual = $response->build();
-        $this->assertSame($expected, $actual);
-    }
+        ]);
+    });
 
-    public function test_handle_failure_by_not_found(): void
-    {
-        $this->expectException(ComicNotFoundException::class);
-        $request = new ComicShowRequest(id: PHP_INT_MAX);
-        $this->interactor->handle($request);
-    }
-}
+    test('failure by not found', function () {
+        expect(fn () => $this->interactor->handle(
+            new ComicShowRequest(id: PHP_INT_MAX)
+        ))->toThrow(ComicNotFoundException::class);
+    });
+});

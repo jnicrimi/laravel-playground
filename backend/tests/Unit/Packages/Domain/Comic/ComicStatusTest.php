@@ -2,87 +2,51 @@
 
 declare(strict_types=1);
 
-namespace Tests\Unit\Packages\Domain\Comic;
-
-use Illuminate\Foundation\Testing\RefreshDatabase;
 use Packages\Domain\Comic\ComicStatus;
-use PHPUnit\Framework\Attributes\DataProvider;
-use Tests\TestCase;
 
-class ComicStatusTest extends TestCase
-{
-    use RefreshDatabase;
+test('cases returns all statuses', function () {
+    expect(ComicStatus::cases())->toHaveCount(3);
+});
 
-    /**
-     * @var int
-     */
-    public const CASE_COUNT = 3;
+describe('equals', function () {
+    test('same status returns true', function (ComicStatus $comicStatus, ComicStatus $expected) {
+        expect($comicStatus->equals($expected))->toBeTrue();
+    })->with([
+        [ComicStatus::PUBLISHED, ComicStatus::PUBLISHED],
+        [ComicStatus::DRAFT, ComicStatus::DRAFT],
+        [ComicStatus::CLOSED, ComicStatus::CLOSED],
+    ]);
 
-    public function test_cases(): void
-    {
-        $this->assertCount(self::CASE_COUNT, ComicStatus::cases());
-    }
+    test('different status returns false', function (ComicStatus $comicStatus, ComicStatus $expected) {
+        expect($comicStatus->equals($expected))->toBeFalse();
+    })->with('different statuses');
+});
 
-    #[DataProvider('provideEqualsSuccess')]
-    public function test_equals_success(ComicStatus $comicStatus, ComicStatus $expected): void
-    {
-        $this->assertTrue($comicStatus->equals($expected));
-    }
+describe('description', function () {
+    test('returns correct label', function (ComicStatus $comicStatus, string $expected) {
+        expect($comicStatus->description())->toEqual($expected);
+    })->with([
+        [ComicStatus::PUBLISHED, '公開'],
+        [ComicStatus::DRAFT, '下書き'],
+        [ComicStatus::CLOSED, '非公開'],
+    ]);
 
-    #[DataProvider('provideEqualsFailure')]
-    public function test_equals_failure(ComicStatus $comicStatus, ComicStatus $expected): void
-    {
-        $this->assertFalse($comicStatus->equals($expected));
-    }
+    test('does not match wrong label', function (ComicStatus $comicStatus, string $expected) {
+        expect($comicStatus->description())->not->toEqual($expected);
+    })->with([
+        [ComicStatus::PUBLISHED, 'dummy'],
+        [ComicStatus::DRAFT, 'dummy'],
+        [ComicStatus::CLOSED, 'dummy'],
+    ]);
+});
 
-    #[DataProvider('provideDescriptionSuccess')]
-    public function test_description_success(ComicStatus $comicStatus, string $expected): void
-    {
-        $this->assertEquals($expected, $comicStatus->description());
-    }
-
-    #[DataProvider('provideDescriptionFailure')]
-    public function test_description_failure(ComicStatus $comicStatus, string $expected): void
-    {
-        $this->assertNotEquals($expected, $comicStatus->description());
-    }
-
-    public static function provideEqualsSuccess(): array
-    {
-        return [
-            [ComicStatus::PUBLISHED, ComicStatus::PUBLISHED],
-            [ComicStatus::DRAFT, ComicStatus::DRAFT],
-            [ComicStatus::CLOSED, ComicStatus::CLOSED],
-        ];
-    }
-
-    public static function provideEqualsFailure(): array
-    {
-        return [
-            [ComicStatus::PUBLISHED, ComicStatus::DRAFT],
-            [ComicStatus::PUBLISHED, ComicStatus::CLOSED],
-            [ComicStatus::DRAFT, ComicStatus::PUBLISHED],
-            [ComicStatus::DRAFT, ComicStatus::CLOSED],
-            [ComicStatus::CLOSED, ComicStatus::PUBLISHED],
-            [ComicStatus::CLOSED, ComicStatus::DRAFT],
-        ];
-    }
-
-    public static function provideDescriptionSuccess(): array
-    {
-        return [
-            [ComicStatus::PUBLISHED, '公開'],
-            [ComicStatus::DRAFT, '下書き'],
-            [ComicStatus::CLOSED, '非公開'],
-        ];
-    }
-
-    public static function provideDescriptionFailure(): array
-    {
-        return [
-            [ComicStatus::PUBLISHED, 'dummy'],
-            [ComicStatus::DRAFT, 'dummy'],
-            [ComicStatus::CLOSED, 'dummy'],
-        ];
-    }
-}
+dataset('different statuses', function () {
+    return [
+        [ComicStatus::PUBLISHED, ComicStatus::DRAFT],
+        [ComicStatus::PUBLISHED, ComicStatus::CLOSED],
+        [ComicStatus::DRAFT, ComicStatus::PUBLISHED],
+        [ComicStatus::DRAFT, ComicStatus::CLOSED],
+        [ComicStatus::CLOSED, ComicStatus::PUBLISHED],
+        [ComicStatus::CLOSED, ComicStatus::DRAFT],
+    ];
+});
