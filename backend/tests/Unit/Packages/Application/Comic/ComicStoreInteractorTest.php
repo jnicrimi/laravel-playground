@@ -23,15 +23,14 @@ describe('handle', function () {
         );
         $response = $this->interactor->handle($request);
         expect($response)->toBeInstanceOf(ComicStoreResponse::class);
-        expect($response->build())->toBe([
-            'comic' => [
-                'id' => $response->build()['comic']['id'],
-                'key' => 'test-key-1',
-                'name' => 'test_name_1',
-                'status' => [
-                    'value' => 'closed',
-                    'description' => '非公開',
-                ],
+        $result = $response->build();
+        expect($result['comic']['id'])->toBeInt()->toBeGreaterThan(0);
+        expect($result['comic'])->toMatchArray([
+            'key' => 'test-key-1',
+            'name' => 'test_name_1',
+            'status' => [
+                'value' => 'closed',
+                'description' => '非公開',
             ],
         ]);
     });
