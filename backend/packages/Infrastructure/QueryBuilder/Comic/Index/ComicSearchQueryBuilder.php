@@ -12,11 +12,11 @@ use Packages\UseCase\Comic\Index\ComicSearchQueryBuilderInterface;
 
 class ComicSearchQueryBuilder extends QueryBuilder implements ComicSearchQueryBuilderInterface, QueryBuilderInterface
 {
-    private ?string $key;
+    private ?string $key = null;
 
-    private ?string $name;
+    private ?string $name = null;
 
-    private ?array $status;
+    private ?array $status = null;
 
     public function setKey(?string $key): static
     {
