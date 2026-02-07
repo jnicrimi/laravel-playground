@@ -1,5 +1,7 @@
 includes:
     - ./vendor/larastan/larastan/extension.neon
+    - ./vendor/phpat/phpat/extension.neon
+    - phpstan-baseline.neon
 
 parameters:
     paths:
@@ -13,6 +15,9 @@ parameters:
         - routes
         - tests
     level: 6
+    phpat:
+        ignore_built_in_classes: true
+        show_rule_names: true
     ignoreErrors:
         - identifier: missingType.iterableValue
         - identifier: missingType.generics
@@ -22,3 +27,9 @@ parameters:
         -
             identifier: method.notFound
             path: tests/*
+
+services:
+    -
+        class: Tests\Architecture\LayerDependencyTest
+        tags:
+            - phpat.test
