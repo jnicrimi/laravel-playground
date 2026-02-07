@@ -1,0 +1,25 @@
+parameters:
+	ignoreErrors:
+		-
+			message: '#^testApplicationDoesNotDependOnInfrastructure\: Packages\\Application\\Comic\\ComicDestroyInteractor should not depend on Packages\\Infrastructure\\Notifier\\ComicNotifier$#'
+			identifier: phpat.testApplicationDoesNotDependOnInfrastructure
+			count: 1
+			path: packages/Application/Comic/ComicDestroyInteractor.php
+
+		-
+			message: '#^testApplicationDoesNotDependOnInfrastructure\: Packages\\Application\\Comic\\ComicIndexInteractor should not depend on Packages\\Infrastructure\\QueryBuilder\\Comic\\Index\\ComicSearchQueryBuilder$#'
+			identifier: phpat.testApplicationDoesNotDependOnInfrastructure
+			count: 1
+			path: packages/Application/Comic/ComicIndexInteractor.php
+
+		-
+			message: '#^testApplicationDoesNotDependOnInfrastructure\: Packages\\Application\\Comic\\ComicStoreInteractor should not depend on Packages\\Infrastructure\\Notifier\\ComicNotifier$#'
+			identifier: phpat.testApplicationDoesNotDependOnInfrastructure
+			count: 1
+			path: packages/Application/Comic/ComicStoreInteractor.php
+
+		-
+			message: '#^testApplicationDoesNotDependOnInfrastructure\: Packages\\Application\\Comic\\ComicUpdateInteractor should not depend on Packages\\Infrastructure\\Notifier\\ComicNotifier$#'
+			identifier: phpat.testApplicationDoesNotDependOnInfrastructure
+			count: 1
+			path: packages/Application/Comic/ComicUpdateInteractor.php
