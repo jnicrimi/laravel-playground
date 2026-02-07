@@ -8,30 +8,31 @@ use App\Models\Comic;
 use Illuminate\Database\Eloquent\Builder;
 use Packages\Infrastructure\QueryBuilder\QueryBuilder;
 use Packages\Infrastructure\QueryBuilder\QueryBuilderInterface;
+use Packages\UseCase\Comic\Index\ComicSearchQueryBuilderInterface;
 
-class ComicSearchQueryBuilder extends QueryBuilder implements QueryBuilderInterface
+class ComicSearchQueryBuilder extends QueryBuilder implements ComicSearchQueryBuilderInterface, QueryBuilderInterface
 {
-    private ?string $key;
+    private ?string $key = null;
 
-    private ?string $name;
+    private ?string $name = null;
 
-    private ?array $status;
+    private ?array $status = null;
 
-    public function setKey(?string $key): self
+    public function setKey(?string $key): static
     {
         $this->key = $key;
 
         return $this;
     }
 
-    public function setName(?string $name): self
+    public function setName(?string $name): static
     {
         $this->name = $name;
 
         return $this;
     }
 
-    public function setStatus(?array $status): self
+    public function setStatus(?array $status): static
     {
         $this->status = $status;
 

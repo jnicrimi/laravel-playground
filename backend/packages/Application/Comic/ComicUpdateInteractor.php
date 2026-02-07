@@ -10,7 +10,7 @@ use Packages\Domain\Comic\ComicKey;
 use Packages\Domain\Comic\ComicName;
 use Packages\Domain\Comic\ComicRepositoryInterface;
 use Packages\Domain\Comic\ComicStatus;
-use Packages\Infrastructure\Notifier\ComicNotifier;
+use Packages\UseCase\Comic\ComicNotifierInterface;
 use Packages\UseCase\Comic\Exception\ComicAlreadyExistsException;
 use Packages\UseCase\Comic\Exception\ComicNotFoundException;
 use Packages\UseCase\Comic\Update\ComicUpdateRequest;
@@ -21,7 +21,7 @@ class ComicUpdateInteractor implements ComicUpdateUseCaseInterface
 {
     public function __construct(
         private readonly ComicRepositoryInterface $comicRepository,
-        private readonly ComicNotifier $comicNotifier
+        private readonly ComicNotifierInterface $comicNotifier
     ) {}
 
     /**

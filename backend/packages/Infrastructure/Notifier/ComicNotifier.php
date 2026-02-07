@@ -8,8 +8,9 @@ use App\Jobs\ComicDestroyNotificationJob;
 use App\Jobs\ComicStoreNotificationJob;
 use App\Jobs\ComicUpdateNotificationJob;
 use Packages\Domain\Comic\Comic;
+use Packages\UseCase\Comic\ComicNotifierInterface;
 
-class ComicNotifier
+class ComicNotifier implements ComicNotifierInterface
 {
     public function notifyStore(Comic $comic): void
     {
