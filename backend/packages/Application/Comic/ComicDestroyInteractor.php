@@ -6,7 +6,7 @@ namespace Packages\Application\Comic;
 
 use Packages\Domain\Comic\ComicId;
 use Packages\Domain\Comic\ComicRepositoryInterface;
-use Packages\Infrastructure\Notifier\ComicNotifier;
+use Packages\UseCase\Comic\ComicNotifierInterface;
 use Packages\UseCase\Comic\Destroy\ComicDestroyRequest;
 use Packages\UseCase\Comic\Destroy\ComicDestroyResponse;
 use Packages\UseCase\Comic\Destroy\ComicDestroyUseCaseInterface;
@@ -17,7 +17,7 @@ class ComicDestroyInteractor implements ComicDestroyUseCaseInterface
 {
     public function __construct(
         private readonly ComicRepositoryInterface $comicRepository,
-        private readonly ComicNotifier $comicNotifier
+        private readonly ComicNotifierInterface $comicNotifier
     ) {}
 
     /**

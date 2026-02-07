@@ -15,12 +15,15 @@ use Packages\Application\Comic\ComicStoreInteractor;
 use Packages\Application\Comic\ComicUpdateInteractor;
 use Packages\Domain\Comic\ComicRepositoryInterface;
 use Packages\Infrastructure\Notifier\ComicNotifier;
+use Packages\Infrastructure\QueryBuilder\Comic\Index\ComicSearchQueryBuilder;
 use Packages\Infrastructure\Repository\Comic\ComicRepository;
 use Packages\Infrastructure\Service\Notification\LogNotificationService;
 use Packages\Infrastructure\Service\Notification\NotificationServiceInterface;
 use Packages\Infrastructure\Service\Notification\SlackNotificationService;
+use Packages\UseCase\Comic\ComicNotifierInterface;
 use Packages\UseCase\Comic\Destroy\ComicDestroyUseCaseInterface;
 use Packages\UseCase\Comic\Index\ComicIndexUseCaseInterface;
+use Packages\UseCase\Comic\Index\ComicSearchQueryBuilderInterface;
 use Packages\UseCase\Comic\Show\ComicShowUseCaseInterface;
 use Packages\UseCase\Comic\Store\ComicStoreUseCaseInterface;
 use Packages\UseCase\Comic\Update\ComicUpdateUseCaseInterface;
@@ -34,7 +37,6 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register(): void
     {
-
         // Repository
         $this->app->bind(ComicRepositoryInterface::class, ComicRepository::class);
         // UseCase
@@ -44,7 +46,9 @@ class AppServiceProvider extends ServiceProvider
         $this->app->bind(ComicStoreUseCaseInterface::class, ComicStoreInteractor::class);
         $this->app->bind(ComicUpdateUseCaseInterface::class, ComicUpdateInteractor::class);
         // Notifier
-        $this->app->bind(ComicNotifier::class, ComicNotifier::class);
+        $this->app->bind(ComicNotifierInterface::class, ComicNotifier::class);
+        // QueryBuilder
+        $this->app->bind(ComicSearchQueryBuilderInterface::class, ComicSearchQueryBuilder::class);
         // NotificationService
         $notificationService = config('notification.service');
         if ($notificationService === 'slack') {
