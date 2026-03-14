@@ -9,12 +9,12 @@ use Illuminate\Database\Eloquent\Factories\Factory;
 use Packages\Domain\Comic\ComicStatus;
 
 /**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Comic>
+ * @extends Factory<Comic>
  */
 class ComicFactory extends Factory
 {
     /**
-     * @var class-string<\App\Models\Comic>
+     * @var class-string<Comic>
      */
     protected $model = Comic::class;
 
