@@ -5,8 +5,8 @@ commit-msg:
 
 pre-commit:
   commands:
-    scan-git-secrets:
-      run: git secrets --scan
+    gitleaks:
+      run: gitleaks protect --staged
     markdownlint:
       glob: "*.md"
       exclude: "^backend/README.md$"
@@ -36,6 +36,8 @@ pre-commit:
 
 pre-push:
   commands:
+    gitleaks:
+      run: gitleaks detect
     phpunit:
       root: backend
       run: docker compose exec backend bash -c 'php artisan config:clear && php artisan test'
