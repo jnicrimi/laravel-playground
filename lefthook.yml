@@ -6,7 +6,7 @@ commit-msg:
 pre-commit:
   commands:
     gitleaks:
-      run: gitleaks protect --staged
+      run: gitleaks git --pre-commit --staged
     markdownlint:
       glob: "*.md"
       exclude: "^backend/README.md$"
@@ -37,7 +37,7 @@ pre-commit:
 pre-push:
   commands:
     gitleaks:
-      run: gitleaks detect
+      run: gitleaks git --log-opts "origin/main..HEAD" .
     phpunit:
       root: backend
       run: docker compose exec backend bash -c 'php artisan config:clear && php artisan test'
