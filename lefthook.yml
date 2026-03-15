@@ -37,7 +37,7 @@ pre-commit:
 pre-push:
   commands:
     gitleaks:
-      run: gitleaks git --log-opts "origin/main..HEAD" .
+      run: gitleaks git --log-opts "origin/main..HEAD"
     phpunit:
       root: backend
       run: docker compose exec backend bash -c 'php artisan config:clear && php artisan test'
